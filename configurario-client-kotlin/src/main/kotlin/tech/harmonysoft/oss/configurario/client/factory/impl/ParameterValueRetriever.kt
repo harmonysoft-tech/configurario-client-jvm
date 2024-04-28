@@ -43,12 +43,14 @@ class ParameterValueRetriever(val parameter: KParameter) {
         )
 
         val propertyName = context.getRegularPropertyName(prefix, name)
-        return doRetrieve(propertyName = propertyName,
-                          creator = creator,
-                          context = context,
-                          type = parameter.type,
-                          klass = klass,
-                          optional = parameter.isOptional || parameter.type.isMarkedNullable)
+        return doRetrieve(
+            propertyName = propertyName,
+            creator = creator,
+            context = context,
+            type = parameter.type,
+            klass = klass,
+            optional = parameter.isOptional || parameter.type.isMarkedNullable
+        )
     }
 
     private fun doRetrieve(
@@ -98,23 +100,27 @@ class ParameterValueRetriever(val parameter: KParameter) {
         context: Context
     ): Result<Any?, String>? {
         return when {
-            isMapLike(propertyName, context) -> retrieveMap(propertyName = propertyName,
-                                                            creator = creator,
-                                                            context = context,
-                                                            keyType = STRING_TYPE,
-                                                            keyClass = String::class,
-                                                            valueType = ANY_TYPE,
-                                                            valueClass = Any::class,
-                                                            optional = false,
-                                                            nullable = false)
-            isCollectionLike(propertyName, context) -> retrieveCollection(collectionClass = List::class,
-                                                                          propertyName = propertyName,
-                                                                          creator = creator,
-                                                                          context = context,
-                                                                          valueType = ANY_TYPE,
-                                                                          valueClass = Any::class,
-                                                                          optional = false,
-                                                                          nullable = false)
+            isMapLike(propertyName, context) -> retrieveMap(
+                propertyName = propertyName,
+                creator = creator,
+                context = context,
+                keyType = STRING_TYPE,
+                keyClass = String::class,
+                valueType = ANY_TYPE,
+                valueClass = Any::class,
+                optional = false,
+                nullable = false
+            )
+            isCollectionLike(propertyName, context) -> retrieveCollection(
+                collectionClass = List::class,
+                propertyName = propertyName,
+                creator = creator,
+                context = context,
+                valueType = ANY_TYPE,
+                valueClass = Any::class,
+                optional = false,
+                nullable = false
+            )
             else -> retrieveSimpleValue(propertyName, Any::class, context)
         }
     }
@@ -199,14 +205,16 @@ class ParameterValueRetriever(val parameter: KParameter) {
                 "can't derive type parameter class for property '$propertyName' of type ${parameter.type}"
         )
 
-        return retrieveCollection(collectionClass = collectionClass,
-                                  propertyName = propertyName,
-                                  creator = creator,
-                                  context = context,
-                                  valueType = type,
-                                  valueClass = typeClass,
-                                  optional = parameter.isOptional,
-                                  nullable = parameter.type.isMarkedNullable)
+        return retrieveCollection(
+            collectionClass = collectionClass,
+            propertyName = propertyName,
+            creator = creator,
+            context = context,
+            valueType = type,
+            valueClass = typeClass,
+            optional = parameter.isOptional,
+            nullable = parameter.type.isMarkedNullable
+        )
     }
 
     private fun retrieveCollection(
@@ -287,15 +295,17 @@ class ParameterValueRetriever(val parameter: KParameter) {
         val valueClass = valueType.classifier as? KClass<*> ?: throw IllegalArgumentException(
                 "Failed instantiating a Map property '$propertyName' - can't derive value class for $parameter"
         )
-        return retrieveMap(propertyName = propertyName,
-                           creator = creator,
-                           context = context,
-                           keyType = keyType,
-                           keyClass = keyClass,
-                           valueType = valueType,
-                           valueClass = valueClass,
-                           optional = parameter.isOptional,
-                           nullable = parameter.type.isMarkedNullable)
+        return retrieveMap(
+            propertyName = propertyName,
+            creator = creator,
+            context = context,
+            keyType = keyType,
+            keyClass = keyClass,
+            valueType = valueType,
+            valueClass = valueClass,
+            optional = parameter.isOptional,
+            nullable = parameter.type.isMarkedNullable
+        )
     }
 
     private fun retrieveMap(
@@ -313,12 +323,13 @@ class ParameterValueRetriever(val parameter: KParameter) {
         for (key in context.getMapKeys(propertyName, keyType)) {
             val valuePropertyName = context.getMapValuePropertyName(propertyName, key)
             try {
-                doRetrieve(propertyName = valuePropertyName,
-                           creator = creator,
-                           context = context,
-                           type = valueType,
-                           klass = valueClass,
-                           optional = false
+                doRetrieve(
+                    propertyName = valuePropertyName,
+                    creator = creator,
+                    context = context,
+                    type = valueType,
+                    klass = valueClass,
+                    optional = false
                 )?.takeIf {
                     it.success
                 }?.let {
