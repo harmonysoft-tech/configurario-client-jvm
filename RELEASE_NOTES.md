@@ -1,3 +1,5 @@
+## v1.1.0 released on 28 Apr 2024 UTC
+  * 15751264d68afa71f35cf922e91f02de2560b28e configured ConfigProviderFactory in spring context
 ## v1.0.2 released on 28 Apr 2024 UTC
   * 3fc1e1a91052abf04922e7a2cf8c0efaba4200f9 corrected CI setup
 ## v1.0.1 released on 28 Apr 2024 UTC
