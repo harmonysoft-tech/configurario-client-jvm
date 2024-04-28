@@ -1,3 +1,5 @@
+## v1.0.2 released on 28 Apr 2024 UTC
+  * 3fc1e1a91052abf04922e7a2cf8c0efaba4200f9 corrected CI setup
 ## v1.0.1 released on 28 Apr 2024 UTC
   * faac88a7130c01611e70a53a94fac07de84346f7 corrected UI setup
 ## v1.0.0 released on 28 Apr 2024 UTC
